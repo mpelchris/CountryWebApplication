@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title> Country Service</title> 
+        <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+    
+        <style>
+            #flag{ 
+                height: 200px;
+                 width: 50%;
+                 }
+            tbody td{
+                    height: 200px;
+                    width: 400px;
+                    text-align: center; 
+                   
+                    }  
+           
+        </style>
+    </head>  
+    
+    <body>
+        <div class="input_box">
+            <div>
+                write the country <input type="text" name="country" id="input">
+            </div>
+        </div>
+        <div>
+        <table id="mytable">
+            <thead>
+                <th> COUNTRY NAME </th>
+                <th> CAPITAL </th>
+                <th> FLAG </th>
+            </thead>
+            <tbody>
+                <div>
+                    <tr>
+                        <td class="border px-3"></td>
+                        <td class="border px-3"></td>
+                        <td class="border px-3">
+                            <img src="" class="img-fluid" id="flag" alt="">
+                        </td>
+                        
+                    </tr>
+                    <div id="the_table">
+                        <tr>...</tr>
+                    </div>
+                    
+            </div>
+            </tbody>
+           
+           
+        </table>
+    </div>
+        <script>
+            jQuery( init );
+            function init( $ ){
+           
+            let input=$("#input");
+            input.focus();
+           // input.on('input' , handlekeypress);
+            
+           // input.keyup(handlekeypress);
+            input.on('keyup',function(event){
+                let URL="https://restcountries.eu/rest/v2/name/";
+                event.preventDefault();
+                URL=URL + input.val();
+                console.log(URL);
+                var options={
+                url:URL,
+                success:handleAjaxResponse,
+                error:handleAjaxError
+            }
+            $.ajax(options);
+function  handleAjaxResponse(data){
+    var content="<table>"
+    console.log(data);
+    for(i=0;i<data.length;i++){ 
+        
+        var countrydata=data[i];
+        for(j=0;j<1;j++) {
+        content += '<tr class="tt"><td>'+countrydata.name+'</td><td>'+countrydata.capital+'</td><td> <img src="'+countrydata.flag+'" id="flag" alt=""> </td></tr>';
+        // content += '<tr class="tt"><td></td><td></td><td> <img src="" id="flag" alt=""> </td></tr>';
+        }
+        content += "</table>";
+        console.log(countrydata.name);
+       }
+       $('#mytable').html(content);
+  
+     
+ }
+ function handleAjaxError(jqXHR, textStatus,errorThrown) {
+    console.log(textStatus, errorThrown);
+   // alert("Error");
+   
+ }
+            });
+            
+         
+            // function handlekeypress(event){
+            
+            //     let URL="https://restcountries.eu/rest/v2/name/";
+            //     event.preventDefault();
+            //     URL=URL + input.val();
+            //     console.log(URL);
+            //     let options={
+            //     url:URL,
+            //     success:handleAjaxResponse,
+            //     error:handleAjaxError
+            // }
+           
+    
+            // var content = "<table>"
+            // for(i=0; i<3; i++){
+            //     content += '<tr><td>' + 'result ' +  i + '</td></tr>';
+            // }
+            // content += "</table>"
+            // $('#here_table').append(content);
+            //   $('#myTable tr:last').after("<tr>...</tr><tr>...</tr>");
+            
+            }
+        </script>
+    </body>
